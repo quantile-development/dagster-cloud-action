@@ -13,6 +13,10 @@ inputs:
   env_vars:
     required: false
     description: "A JSON string of environment variables to store in the deployed code location image."
+  meltano_location:
+    required: false
+    default: "."
+    description: "The root location of your meltano project"
 runs:
   using: "composite"
   steps:
@@ -21,10 +25,19 @@ runs:
       with:
         ref: ${{ github.head_ref }}
 
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.8"
+        cache: pip
+
+    - run: pip install meltano==2.4.0
+
+    - run: (cd ${{ inputs.meltano_location }}; meltano install)
+
     - name: Checkout action repo
       uses: actions/checkout@v3
       with:
-        repository: dagster-io/dagster-cloud-action
+        repository: quantile-development/dagster-cloud-action
         ref: ${{ env.DAGSTER_ACTION_REF }}
         path: ./action-repo/
       env:
@@ -33,7 +46,7 @@ runs:
         # We need to get the local action ref, but this is available in the evaluation of `env`, not
         # during the run time evaluation or the parameter evaluation:
         # https://github.com/orgs/community/discussions/25283
-        DAGSTER_ACTION_REF: ${{ github.repository != 'dagster-io/dagster-cloud-action' && github.action_ref || github.head_ref }}
+        DAGSTER_ACTION_REF: ${{ github.repository != 'quantile-development/dagster-cloud-action' && github.action_ref || github.head_ref }}
 
     - name: Get serverless organization info
       uses: ./action-repo/actions/utils/registry_info
