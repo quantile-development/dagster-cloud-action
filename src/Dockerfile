@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ghcr.io/dagster-io/dagster-cloud-action:0.1.4
 
 # for setting the org-specific registry info
 COPY registry_info.sh /registry_info.sh
