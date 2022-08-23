@@ -25,16 +25,16 @@ runs:
       with:
         ref: ${{ github.head_ref }}
 
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.8"
-        cache: pip
+    # - uses: actions/setup-python@v4
+    #   with:
+    #     python-version: "3.8"
+    #     cache: pip
 
-    - run: pip install meltano==2.4.0
-      shell: bash
+    # - run: pip install meltano==2.4.0
+    #   shell: bash
 
-    - run: (cd ${{ inputs.meltano_location }}; meltano install)
-      shell: bash
+    # - run: (cd ${{ inputs.meltano_location }}; meltano install)
+    #   shell: bash
 
     - name: Checkout action repo
       uses: actions/checkout@v3
