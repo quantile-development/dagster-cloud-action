@@ -20,4 +20,9 @@ RUN if [ -f "requirements.txt" ]; then \
 # Make sure dagster-cloud is installed. Fail early here if not.
 RUN dagster-cloud --version
 
+# If a dagster cloud script is defined, run it inside the Docker container
+RUN if [ -f "dagster_cloud.sh" ]; then \
+        sh dagster_cloud.sh; \
+    fi
+
 # placeholder section for adding env vars below
