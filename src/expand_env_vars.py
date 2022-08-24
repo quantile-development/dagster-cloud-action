@@ -13,7 +13,7 @@ def main():
         ev_json = os.getenv(INPUT_ENV_VAR_NAME)
         if ev_json:
             for k, v in json.loads(ev_json).items():
-                f.write(f"ENV {k}={v}\n")
+                f.write(f'ENV {k}="{v}"\n')
     print(OUTPUT_FILE_NAME)
 
 
